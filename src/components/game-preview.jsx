@@ -1,7 +1,9 @@
-var React = require('react');
-var Reflux = require('reflux');
-var gameDetailStore = require('../stores/game-detail-store');
-var Actions = require('../actions');  
+const React = require('react');
+const Reflux = require('reflux');
+const gameDetailStore = require('../stores/game-detail-store');
+const Actions = require('../actions');
+const Router = require('react-router');
+const Link = Router.Link;  
 
 module.exports = React.createClass({
   mixins: [
@@ -18,37 +20,32 @@ module.exports = React.createClass({
     }
   },
    onChange: function(event, gamePreview) {
-       // hotGames.map(function(content) {
-       //   this.gameIds.push(content.$.id);
-       // }.bind(this));
       this.setState({
         data: gamePreview
-      }); 
-      // gamePreview.map(function(content) {
-      //   console.log(content.name[0].$.value);
-      // });
-      // console.log(gamePreview) 
+      });  
    },
   render: function() {
     return <div>
        {this.state.data ? this.content() : null}       
-       
     </div>
   },
   statistics: function(stats) {
+    // stats[0].ratings.map(function(content) {
+    //   console.log(content.average[0].$.value);
+    // });
     return stats[0].ratings[0].average[0].$.value;
   },
   content: function() {
-    console.log(this.state.data);
+    //console.log(this.state.data);
     return this.state.data.map(function(content) {
-      return <div key = {content.$.id}> 
+      return <Link to = {'boardgame/'+ content.$.id} key = {content.$.id}> 
           <h2>{content.name[0].$.value}</h2>
-          <p>{content.description}</p>
+          <img src = {content.thumbnail[0]} />
           <ul>
             <li>Max Players {content.maxplayers[0].$.value}</li>
             <li>{this.statistics(content.statistics)}</li>
           </ul>
-        </div>
+        </Link>
       ;
     }.bind(this));
   }
