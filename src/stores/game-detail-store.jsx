@@ -10,21 +10,24 @@ module.exports = Reflux.createStore({
 	listenables: [Actions],
 	gameIds: [],
 	games: [],
-	getGameDetails(gameIds) {
-		let difference = _.difference(gameIds,this.gameIds);
+	// getGameDetails(gameIds) {
+	// 	let difference = _.difference(gameIds,this.gameIds);
 
-		if(difference.length > 0) {
-			this.gameIds = this.gameIds.concat(difference,this.gameIds);
-			this.fetchGameData(difference);
-		}  else {
-			this.triggerChange();	
-		}
-	},
-	fetchGameData(gameIds) {
+	// 	if(difference.length > 0) {
+	// 		this.gameIds = this.gameIds.concat(difference,this.gameIds);
+	// 		this.fetchGameData(difference);
+
+	// 	}  else {
+	// 		this.triggerChange();	
+	// 	}
+	// },
+	getGameDetails(gameIds) {
 		// fires ajax request using api module (api.jsx)
 		return Api.get('thing?id=' + gameIds + '&stats=1')
 			.then(function(json) {
-  				this.games = this.games.concat(json.items.item);
+
+  				//this.games = this.games.concat(json.items.item);
+  				this.games = json.items.item ;
 				this.triggerChange();	
 		}.bind(this));
 	},
@@ -33,7 +36,8 @@ module.exports = Reflux.createStore({
 			if(this.games[i].$.id === id) {
 				return [this.games[i]];
 			} else {
-				this.getGameDetails(id);
+				//console.log('test');
+				//this.getGameDetails(id);
 			}
 		}
 	},

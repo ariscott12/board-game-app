@@ -1,10 +1,12 @@
 var React = require('react');
-var HotGames = require('./hot-games');  
+var HotGames = require('./hot-games');
+var Header = require('./header');  
 
 module.exports = React.createClass({
   render: function() {
     return <div>
-       {this.content()}
+      <Header />
+      {this.content()}
     </div>
   },
   content: function() {

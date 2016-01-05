@@ -4,4 +4,6 @@ module.exports = Reflux.createActions([
 	// single action getTopics, runs getTopics in any store that has getTopics method
 	'getHotGames',
 	'getGameDetails',
+	'getSearchResults',
+	'getHotGameDetails'
 ]);

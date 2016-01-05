@@ -14,6 +14,9 @@ module.exports = React.createClass({
     Actions.getHotGames();    
     this.gameIds = [];
   },
+  componentWillReceiveProps(newProps) {
+    console.log('asdfasdf');
+  },
   getInitialState:function() {
     return {
       gameIds: null

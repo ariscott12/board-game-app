@@ -5,17 +5,18 @@ var Actions = require('../actions');
 module.exports = Reflux.createStore({
 	// listen to any available actions provided by actions.jsx, if action matches method call it
 	listenables: [Actions],
-	getHotGames: function() {
+	getSearchResults: function(query) {
 		// fires ajax request using api module (api.jsx)
-		return Api.get('hot?boardgame')
+
+		return Api.get('search?query=' + query + '&type=boardgame')
 			.then(function(json) {
-      			this.hotGames = json.items.item
+      			this.results = json.items.item
 				this.triggerChange();	 
     		}.bind(this));
 		
 	},
 	triggerChange: function() {
 		// fire trigger event
-		this.trigger('change', this.hotGames);
+		this.trigger('change', this.results);
 	}
 });

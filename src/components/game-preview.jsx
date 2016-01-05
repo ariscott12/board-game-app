@@ -11,43 +11,52 @@ module.exports = React.createClass({
     // call onChange function when event triggered by store
     Reflux.listenTo(gameDetailStore, 'onChange'),
   ],
-  componentWillMount: function() {
+  componentWillMount() {
+    console.log('mounted');
+
     Actions.getGameDetails(this.props.ids);    
   },
-  getInitialState:function() {
+  // componentWillReceiveProps(newProps) {
+  //   console.log('fired');
+  //    //Actions.getGameDetails(newProps.ids);    
+  // },
+  getInitialState() {
     return {
       data: null
     }
   },
-   onChange: function(event, gamePreview) {
+  onChange(event, gamePreview) {
       this.setState({
         data: gamePreview
       });  
    },
-  render: function() {
+  render() {
     return <div>
        {this.state.data ? this.content() : null}       
     </div>
   },
-  statistics: function(stats) {
-    // stats[0].ratings.map(function(content) {
-    //   console.log(content.average[0].$.value);
-    // });
+  statistics(stats) {
+    
     return stats[0].ratings[0].average[0].$.value;
   },
-  content: function() {
-    //console.log(this.state.data);
-    return this.state.data.map(function(content) {
+  image(content) {
+    if(content.thumbnail) {
+      return  <img src = {content.thumbnail[0]} />
+    }
+  },
+  content() {
+   
+    return this.state.data.map((content) => {
       return <Link to = {'boardgame/'+ content.$.id} key = {content.$.id}> 
           <h2>{content.name[0].$.value}</h2>
-          <img src = {content.thumbnail[0]} />
+          {this.image(content)}
           <ul>
             <li>Max Players {content.maxplayers[0].$.value}</li>
             <li>{this.statistics(content.statistics)}</li>
           </ul>
         </Link>
       ;
-    }.bind(this));
+    });
   }
 });
 
