@@ -1,3 +1,5 @@
+"use strict";
+
 const React = require('react');
 const Reflux = require('reflux');
 const gameDetailStore = require('../stores/game-detail-store');
@@ -12,14 +14,8 @@ module.exports = React.createClass({
     Reflux.listenTo(gameDetailStore, 'onChange'),
   ],
   componentWillMount() {
-    console.log('mounted');
-
     Actions.getGameDetails(this.props.ids);    
   },
-  // componentWillReceiveProps(newProps) {
-  //   console.log('fired');
-  //    //Actions.getGameDetails(newProps.ids);    
-  // },
   getInitialState() {
     return {
       data: null
@@ -36,8 +32,15 @@ module.exports = React.createClass({
     </div>
   },
   statistics(stats) {
-    
-    return stats[0].ratings[0].average[0].$.value;
+    let rating = parseFloat(stats[0].ratings[0].average[0].$.value);
+    rating = rating.toFixed(2);
+    if(rating == 0.00) {
+      return 'N/A';
+    }
+    return rating;
+  },
+  rank(ranks) {
+    return ranks[0].ratings[0].ranks[0].rank[0].$.value;
   },
   image(content) {
     if(content.thumbnail) {
@@ -45,14 +48,14 @@ module.exports = React.createClass({
     }
   },
   content() {
-   
     return this.state.data.map((content) => {
       return <Link to = {'boardgame/'+ content.$.id} key = {content.$.id}> 
           <h2>{content.name[0].$.value}</h2>
           {this.image(content)}
           <ul>
-            <li>Max Players {content.maxplayers[0].$.value}</li>
-            <li>{this.statistics(content.statistics)}</li>
+            <li>Max Players: {content.maxplayers[0].$.value}</li>
+            <li>Average Rating: {this.statistics(content.statistics)}</li>
+            <li>Board Game Rank: {this.rank(content.statistics)}</li>
           </ul>
         </Link>
       ;

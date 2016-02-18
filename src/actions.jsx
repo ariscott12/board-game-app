@@ -1,9 +1,10 @@
 var Reflux = require('reflux');
 
 module.exports = Reflux.createActions([
-	// single action getTopics, runs getTopics in any store that has getTopics method
+	// runs action in any store that has these methods
 	'getHotGames',
 	'getGameDetails',
 	'getSearchResults',
-	'getHotGameDetails'
+	'getHotGameDetails',
+	'findGame'
 ]);
