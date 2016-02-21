@@ -6,6 +6,8 @@ const gameDetailStore = require('../stores/game-detail-store');
 const Actions = require('../actions');
 const Router = require('react-router');
 const Link = Router.Link;  
+const Scorebar = require('./score-bar');  
+
 
 module.exports = React.createClass({
   mixins: [
@@ -31,13 +33,24 @@ module.exports = React.createClass({
        {this.state.data ? this.content() : null}       
     </div>
   },
-  statistics(stats) {
+  averageRating(stats) {
     let rating = parseFloat(stats[0].ratings[0].average[0].$.value);
     rating = rating.toFixed(2);
     if(rating == 0.00) {
-      return 'N/A';
+      return null;
+    } else {
+      return <Scorebar color= "yellow" score = {rating} />
     }
-    return rating;
+    
+  },
+  geekRating(stats) {
+    let rating = parseFloat(stats[0].ratings[0].bayesaverage[0].$.value);
+    rating = rating.toFixed(2);
+    if(rating == 0.00) {
+      return null;
+    } else {
+      return <Scorebar color= "red" score = {rating} />
+    }
   },
   rank(ranks) {
     return ranks[0].ratings[0].ranks[0].rank[0].$.value;
@@ -49,16 +62,30 @@ module.exports = React.createClass({
   },
   content() {
     return this.state.data.map((content) => {
-      return <Link to = {'boardgame/'+ content.$.id} key = {content.$.id}> 
-          <h2>{content.name[0].$.value}</h2>
-          {this.image(content)}
-          <ul>
-            <li>Max Players: {content.maxplayers[0].$.value}</li>
-            <li>Average Rating: {this.statistics(content.statistics)}</li>
-            <li>Board Game Rank: {this.rank(content.statistics)}</li>
-          </ul>
+      if(this.geekRating(content.statistics) != null && this.averageRating(content.statistics) != null) {
+      
+      return <div className = "game-preview"> 
+        <Link to = {'boardgame/'+ content.$.id} key = {content.$.id}> 
+          <h2 className = "title">{content.name[0].$.value}</h2>
+          <div className = "inner-wrapper clearfix">
+            <div className = "image-wrapper">
+              {this.image(content)}
+            </div>
+            <div className = "bg-rankings">
+              <h3 className = "score-label">Average Rating</h3>
+              {this.averageRating(content.statistics)}
+              <h3 className = "score-label">Geek Rating</h3>
+              {this.geekRating(content.statistics)}
+              </div>
+          </div>
+          <ul className = "statistics">
+            <li>{content.yearpublished[0].$.value}<span className = "label">Year Published</span></li>
+            <li>{content.maxplayers[0].$.value}<span className = "label">Num of Players: </span></li>
+            <li>{this.rank(content.statistics)}<span className = "label">Board Game Rank</span></li>
+          </ul> 
         </Link>
-      ;
+        </div>
+      }
     });
   }
 });
