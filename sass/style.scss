@@ -1,3 +1,17 @@
-.black {
-  color: black
+
+$visual-grid: true;
+
+@import "bourbon";
+@import "neat";
+@import "normalize";
+@import "variables";
+@import "mixins";
+@import "base.scss";
+@import "helpers.scss";
+@import "game-preview";
+@import "scorebar";
+
+
+.container {
+	@include outer-container();
 }

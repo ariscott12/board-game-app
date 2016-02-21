@@ -1,0 +1,74 @@
+.game-preview {
+	background: $primary-color-1;
+	@include span-columns(6);
+	@include omega(2n);
+	@include border-radius(3px);
+	.inner-wrapper {
+		padding:2rem;
+	}
+	margin-bottom:20px;
+	a {
+		color:$white;
+
+	}
+	.score-label {
+		font-weight: normal;
+    	margin-bottom: 8px;
+    	font-size: .925rem;
+	}
+	.label-inline {
+		display: inline-block;
+	}
+	.rank {
+		float:right;
+		margin-top:13px;
+	}
+	.title {
+		text-transform: uppercase;
+		@include border-top-radius(3px);
+
+		background:$primary-color-4;
+		font-size:.95rem;
+		margin:0;
+		padding:.6rem;
+		font-weight: normal;
+	}
+	.image-wrapper {
+		overflow:hidden;
+		@include span-columns(2 of 6);
+	}
+	.bg-rankings {
+		float:left;
+		@include span-columns(4 of 6);
+
+	}
+	.statistics {
+		margin:0;
+		padding:0;
+		li {
+			float:left;
+			width:33.3333%;
+			margin:0;
+			text-align:center;
+			background:$secondary-color-1;
+			padding:.5rem 0;
+			&:first-child {
+				border-right:1px solid $primary-color-1;
+				@include border-bottom-radius(3px);
+			}
+			&:last-child {
+				border-left:1px solid $primary-color-1;
+				@include border-bottom-radius(3px);
+
+			}
+		}
+		.label {
+			display:block;
+			font-size:.775rem;
+			margin-top:5px;
+			color: $secondary-color-2;
+
+		}
+	}
+
+}

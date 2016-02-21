@@ -1,0 +1,21 @@
+.scorebar {
+	width:88%;
+	background: $secondary-color-1;
+	position:relative;
+	.yellow {
+		background:$primary-color-2;
+	}
+	.red {
+		background:$primary-color-3;
+	}
+	.score {
+		position: absolute;
+    	right: -35px;
+    	top: -3px;
+    	font-size: .8rem;
+	}
+}
+.scorebar, .scorebar-inner {
+	height:12px;
+	@include border-radius(3px);
+}
