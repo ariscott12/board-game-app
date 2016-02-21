@@ -9,6 +9,7 @@ var server = require('gulp-server-livereload');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var watch = require('gulp-watch');
+var neat = require('node-neat').includePaths;
 
 var notify = function(error) {
   var message = 'In: ';
@@ -73,9 +74,12 @@ gulp.task('serve', function(done) {
 });
 
 gulp.task('sass', function () {
-  gulp.src('./sass/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(concat('style.css'))
+  gulp.src('sass/style.scss')
+    .pipe(sass({
+      includePaths: require('node-neat').includePaths,
+      style: 'compressed',
+      quiet: true
+    }).on('error', sass.logError))
     .pipe(gulp.dest('./'));
 });
 
